@@ -106,6 +106,30 @@ document.getElementById("search-input").addEventListener("keyup", (e) => {
   displayItem(filterData);
 });
 
+const sortItems = (items) => {
+  let sortedOrder = document.getElementById("dropDown");
+  sortedOrder.addEventListener("change", () => {
+    console.log("Click has been done");
+    const sortedProducts = categories.sort((a, b) => {
+      if (sortedOrder.value == "LowToHigh") {
+        if (a.price < b.price) {
+          return -1;
+        } else {
+          return 1;
+        }
+      } else if (sortedOrder.value == "HighToLow") {
+        if (a.price > b.price) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }
+    });
+    displayItem(sortedProducts);
+  });
+};
+sortItems();
+
 const displayItem = (items) => {
   document.getElementById("root").innerHTML = items
     .map((item) => {
@@ -123,29 +147,4 @@ const displayItem = (items) => {
     })
     .join("");
 };
-
-const sortItems = (item) => {
-  var { price } = item;
-
-  //   let productList = document.getElementById(".itemPrice");
-  let sortOrder = document.getElementById("select");
-
-  sortOrder.addEventListener("change", () => {
-    const allProducts = [product.price];
-    allProducts.sort((a, b) => {
-      const priceA = parseFloat(a.querySelector(".itemPrice"));
-      const priceB = parseFloat(b.querySelector(".itemPrice"));
-
-      if (sortOrder.value === "LowToHigh") {
-        return priceA - priceB;
-      } else {
-        return priceB - priceA;
-      }
-    });
-    allProducts.forEach((box) => {
-      productList.appendChild(box);
-    });
-  });
-};
-
 displayItem(categories);
